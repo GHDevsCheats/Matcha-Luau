@@ -1,4 +1,4 @@
---!native
+--not my code
 
 local Enum = {}
 local function CreateEnumCategory(name, items)
@@ -229,3 +229,4 @@ UserInputService.InputEnded:Connect(function(Input)
         print("Left mouse released")
     end
 end)]]
+

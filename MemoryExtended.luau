@@ -178,18 +178,29 @@ function GHDev.setPartPosition(part, pos)
     end
 end
 
+function GHDev.getPartSize(part)
+    if part and part.Parent then
+        return GHDev.Utils.readVector3(GHDev.Utils.getPrimitive(part) + 0x1cc) -- foreced offset cause fuckass website offset is wrong
+    end
+end
+
+function GHDev.setPartSize(part, size)
+    if part and part.Parent then
+        GHDev.Utils.writeVector3(GHDev.Utils.getPrimitive(part) + 0x1cc, size) -- foreced offset cause fuckass website offset is wrong
+    end
+end
+
 function GHDev.getPartRotation(part)
     if part and part.Parent then
-        return GHDev.Utils.readMatrix3(GHDev.Utils.getPrimitive(part) + 0xf8)
+        return GHDev.Utils.readMatrix3(GHDev.Utils.getPrimitive(part) + 0xf8) -- foreced offset cause fuckass website offset is wrong
     end
 end
 
 function GHDev.setPartRotation(part, rot)
     if part and part.Parent then
-        GHDev.Utils.writeMatrix3(GHDev.Utils.getPrimitive(part) + getOffset("Rotation"), rot)
+        GHDev.Utils.writeMatrix3(GHDev.Utils.getPrimitive(part) + 0xf8, rot) -- foreced offset cause fuckass website offset is wrong
     end
 end
-
 
 
 

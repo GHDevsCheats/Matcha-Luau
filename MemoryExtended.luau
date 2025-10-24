@@ -106,18 +106,18 @@ function Utils.writeMatrix4(address, data)
     memory_write("float", address + 0x3C, data["15"])
 end
 
-function Utils.readCFrame(address)
+function Utils.readCFrame(PrimitiveAddress)
     local cframe = {}
 
-    cframe.rotation = Utils.readMatrix3(address + 0xF8)
-    cframe.position = Utils.readVector3(address + 0xF8 + 0x24)
+    cframe.rotation = Utils.readMatrix3(PrimitiveAddress + 0xF8)
+    cframe.position = Utils.readVector3(PrimitiveAddress + 0x11c)  -- foreced offset cause fuckass website offset is wrong
 
     return cframe
 end
 
-function Utils.writeCFrame(address, cframe)
-    Utils.writeMatrix3(address + 0xF8, cframe.rotation)
-    Utils.writeVector3(address + 0xF8 + 0x24, cframe.position)
+function Utils.writeCFrame(PrimitiveAddress, cframe)
+    Utils.writeMatrix3(PrimitiveAddress + 0xF8, cframe.rotation)
+    Utils.writeVector3(PrimitiveAddress + 0x11c, cframe.position) -- foreced offset cause fuckass website offset is wrong
 end
 
 
@@ -204,3 +204,14 @@ end
 
 
 
+function GHDev.getPartCFrame(part)
+    if part and part.Parent then
+        return GHDev.Utils.readCFrame(GHDev.Utils.getPrimitive(part)) -- foreced offset cause fuckass website offset is wrong
+    end
+end
+
+function GHDev.setPartCFrame(part, CFrame)
+    if part and part.Parent then
+        GHDev.Utils.writeCFrame(GHDev.Utils.getPrimitive(part), CFrame) -- foreced offset cause fuckass website offset is wrong
+    end
+end

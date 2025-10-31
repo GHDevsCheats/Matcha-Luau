@@ -106,30 +106,30 @@ function Utils.writeMatrix4(address, data)
     memory_write("float", address + 0x3C, data["15"])
 end
 
-function Utils.readCFrame(PrimitiveAddress)
+function Utils.readCFrame(address)
     local cframe = {}
 
-    cframe.rotation = Utils.readMatrix3(PrimitiveAddress + 0xF8)
-    cframe.position = Utils.readVector3(PrimitiveAddress + 0x11c)  -- foreced offset cause fuckass website offset is wrong
+    cframe.rotation = Utils.readMatrix3(address)
+    cframe.position = Utils.readVector3(address + 0x24)  -- foreced offset cause fuckass website offset is wrong
 
     return cframe
 end
 
-function Utils.writeCFrame(PrimitiveAddress, cframe)
-    Utils.writeMatrix3(PrimitiveAddress + 0xF8, cframe.rotation)
-    Utils.writeVector3(PrimitiveAddress + 0x11c, cframe.position) -- foreced offset cause fuckass website offset is wrong
+function GHDev.writeCFrame(address, cframe)
+    Utils.writeMatrix3(address, cframe.rotation)
+    Utils.writeVector3(address + 0x24, cframe.position) -- foreced offset cause fuckass website offset is wrong
 end
 
 
-function Utils.getLookVector(matrix3)
+function GHDev.getLookVector(matrix3)
     local vec = Vector3.new(0, 0, 0)
     vec.x = matrix3["2"]
     vec.y = matrix3["5"]
     vec.z = matrix3["8"]
-    return vec
+    return vec * -1
 end
 
-function Utils.getRightVector(matrix3)
+function GHDev.getRightVector(matrix3)
     local vec = Vector3.new(0, 0, 0)
     vec.x = matrix3["0"]
     vec.y = matrix3["3"]
@@ -137,7 +137,7 @@ function Utils.getRightVector(matrix3)
     return vec
 end
 
-function Utils.getUpVector(matrix3)
+function GHDev.getUpVector(matrix3)
     local vec = Vector3.new(0, 0, 0)
     vec.x = matrix3["1"]
     vec.y = matrix3["4"]
@@ -206,12 +206,49 @@ end
 
 function GHDev.getPartCFrame(part)
     if part and part.Parent then
-        return GHDev.Utils.readCFrame(GHDev.Utils.getPrimitive(part)) -- foreced offset cause fuckass website offset is wrong
+        return GHDev.Utils.readCFrame(GHDev.Utils.getPrimitive(part) + 0xf8) -- foreced offset cause fuckass website offset is wrong
     end
 end
 
 function GHDev.setPartCFrame(part, CFrame)
     if part and part.Parent then
-        GHDev.Utils.writeCFrame(GHDev.Utils.getPrimitive(part), CFrame) -- foreced offset cause fuckass website offset is wrong
+        GHDev.Utils.writeCFrame(GHDev.Utils.getPrimitive(part) + 0xf8, CFrame) -- foreced offset cause fuckass website offset is wrong
     end
+end
+
+
+
+
+
+
+
+
+-- example usecase
+local player = game.Players.LocalPlayer
+local line = Drawing.new("Line")
+line.Color = Color3.fromRGB(0, 255, 0)
+line.Visible = true
+
+while true do
+    local char = player.Character
+    if char and char.Parent then
+        local head = char.Head
+        if head and head.Parent then
+            print("asd")
+            local cf = GHDev.getPartCFrame(head)
+            local rot = cf.rotation
+            local pos = cf.position
+            GHDev.Utils.printCFrame(cf)
+            local lookVec = GHDev.getLookVector(rot)
+            local pos1, vis1 = WorldToScreen(pos)
+            local pos2, vis2 = WorldToScreen(pos + lookVec)
+            if vis1 and vis2 and pos1 and pos2 then
+                line.From = pos1
+                line.To = pos2
+                print("hi...")
+                
+            end
+        end
+    end
+    wait(0.01)
 end

@@ -216,7 +216,7 @@ function GHDev.setPartCFrame(part, CFrame)
     end
 end
 
-
+return GHDev
 
 
 

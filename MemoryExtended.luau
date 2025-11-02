@@ -223,7 +223,7 @@ return GHDev
 
 
 
--- example usecase
+--[[ example usecase
 local player = game.Players.LocalPlayer
 local line = Drawing.new("Line")
 line.Color = Color3.fromRGB(0, 255, 0)
@@ -252,3 +252,4 @@ while true do
     end
     wait(0.01)
 end
+]]

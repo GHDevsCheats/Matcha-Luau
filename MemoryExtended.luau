@@ -106,7 +106,7 @@ function Utils.writeMatrix4(address, data)
     memory_write("float", address + 0x3C, data["15"])
 end
 
-function Utils.readCFrame(address)
+function GHDev.readCFrame(address)
     local cframe = {}
 
     cframe.rotation = Utils.readMatrix3(address)

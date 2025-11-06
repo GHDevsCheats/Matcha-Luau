@@ -12,7 +12,7 @@ function getOffset(OffsetName)
     local offset = allOffsets[OffsetName]
     if offset then return offset end
     
-    return "0x0"
+    return 0x0
 end
 
 

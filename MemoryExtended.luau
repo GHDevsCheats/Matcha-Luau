@@ -180,25 +180,26 @@ end
 
 function GHDev.getPartSize(part)
     if part and part.Parent then
-        return GHDev.Utils.readVector3(GHDev.Utils.getPrimitive(part) + 0x1cc) -- foreced offset cause fuckass website offset is wrong
+        return GHDev.Utils.readVector3(GHDev.Utils.getPrimitive(part) + getOffset("PartSize"))
     end
 end
 
 function GHDev.setPartSize(part, size)
     if part and part.Parent then
-        GHDev.Utils.writeVector3(GHDev.Utils.getPrimitive(part) + 0x1cc, size) -- foreced offset cause fuckass website offset is wrong
+        GHDev.Utils.writeVector3(GHDev.Utils.getPrimitive(part) + getOffset("PartSize"), size)
     end
 end
 
+
 function GHDev.getPartRotation(part)
     if part and part.Parent then
-        return GHDev.Utils.readMatrix3(GHDev.Utils.getPrimitive(part) + 0xf8) -- foreced offset cause fuckass website offset is wrong
+        return GHDev.Utils.readMatrix3(GHDev.Utils.getPrimitive(part) + getOffset("Rotation"))
     end
 end
 
 function GHDev.setPartRotation(part, rot)
     if part and part.Parent then
-        GHDev.Utils.writeMatrix3(GHDev.Utils.getPrimitive(part) + 0xf8, rot) -- foreced offset cause fuckass website offset is wrong
+        GHDev.Utils.writeMatrix3(GHDev.Utils.getPrimitive(part) + getOffset("Rotation"), rot)
     end
 end
 
@@ -206,13 +207,13 @@ end
 
 function GHDev.getPartCFrame(part)
     if part and part.Parent then
-        return GHDev.Utils.readCFrame(GHDev.Utils.getPrimitive(part) + 0xf8) -- foreced offset cause fuckass website offset is wrong
+        return GHDev.Utils.readCFrame(GHDev.Utils.getPrimitive(part) + getOffset("Rotation"))
     end
 end
 
 function GHDev.setPartCFrame(part, CFrame)
     if part and part.Parent then
-        GHDev.Utils.writeCFrame(GHDev.Utils.getPrimitive(part) + 0xf8, CFrame) -- foreced offset cause fuckass website offset is wrong
+        GHDev.Utils.writeCFrame(GHDev.Utils.getPrimitive(part) + getOffset("Rotation"), CFrame)
     end
 end
 

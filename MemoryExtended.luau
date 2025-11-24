@@ -12,7 +12,7 @@ function getOffset(OffsetName)
     local offset = allOffsets[OffsetName]
     if offset then return offset end
     
-    return 0x0
+    return "0x0"
 end
 
 
@@ -106,7 +106,7 @@ function Utils.writeMatrix4(address, data)
     memory_write("float", address + 0x3C, data["15"])
 end
 
-function GHDev.readCFrame(address)
+function Utils.readCFrame(address)
     local cframe = {}
 
     cframe.rotation = Utils.readMatrix3(address)
@@ -180,26 +180,25 @@ end
 
 function GHDev.getPartSize(part)
     if part and part.Parent then
-        return GHDev.Utils.readVector3(GHDev.Utils.getPrimitive(part) + getOffset("PartSize"))
+        return GHDev.Utils.readVector3(GHDev.Utils.getPrimitive(part) + 0x1b0)
     end
 end
 
 function GHDev.setPartSize(part, size)
     if part and part.Parent then
-        GHDev.Utils.writeVector3(GHDev.Utils.getPrimitive(part) + getOffset("PartSize"), size)
+        GHDev.Utils.writeVector3(GHDev.Utils.getPrimitive(part) + 0x1b0, size)
     end
 end
 
-
 function GHDev.getPartRotation(part)
     if part and part.Parent then
-        return GHDev.Utils.readMatrix3(GHDev.Utils.getPrimitive(part) + getOffset("Rotation"))
+        return GHDev.Utils.readMatrix3(GHDev.Utils.getPrimitive(part) + 0xc0)
     end
 end
 
 function GHDev.setPartRotation(part, rot)
     if part and part.Parent then
-        GHDev.Utils.writeMatrix3(GHDev.Utils.getPrimitive(part) + getOffset("Rotation"), rot)
+        GHDev.Utils.writeMatrix3(GHDev.Utils.getPrimitive(part) + 0xc0, rot)
     end
 end
 
@@ -207,24 +206,24 @@ end
 
 function GHDev.getPartCFrame(part)
     if part and part.Parent then
-        return GHDev.Utils.readCFrame(GHDev.Utils.getPrimitive(part) + getOffset("Rotation"))
+        return GHDev.Utils.readCFrame(GHDev.Utils.getPrimitive(part) + 0xc0)
     end
 end
 
 function GHDev.setPartCFrame(part, CFrame)
     if part and part.Parent then
-        GHDev.Utils.writeCFrame(GHDev.Utils.getPrimitive(part) + getOffset("Rotation"), CFrame)
+        GHDev.Utils.writeCFrame(GHDev.Utils.getPrimitive(part) + 0xc0, CFrame)
     end
 end
 
-return GHDev
 
 
 
 
 
 
---[[ example usecase
+
+-- example usecase
 local player = game.Players.LocalPlayer
 local line = Drawing.new("Line")
 line.Color = Color3.fromRGB(0, 255, 0)
@@ -246,11 +245,9 @@ while true do
             if vis1 and vis2 and pos1 and pos2 then
                 line.From = pos1
                 line.To = pos2
-                print("hi...")
                 
             end
         end
     end
     wait(0.01)
 end
-]]

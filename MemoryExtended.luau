@@ -217,9 +217,17 @@ function GHDev.setPartCFrame(part, CFrame)
 end
 
 
+function GHDev.getMeshId(meshPart)
+    if meshPart and meshPart.Parent then
+        return memory_read("string", meshPart.Address + 0x2e0)
+    end
+end
 
-
-
+function GHDev.setMeshId(meshPart, meshId)
+    if meshPart and meshPart.Parent then
+        return memory_write("string", meshPart.Address + 0x2e0, meshId)
+    end
+end
 
 
 

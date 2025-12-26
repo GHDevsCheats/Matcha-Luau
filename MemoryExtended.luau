@@ -110,14 +110,14 @@ function Utils.readCFrame(address)
     local cframe = {}
 
     cframe.rotation = Utils.readMatrix3(address)
-    cframe.position = Utils.readVector3(address + 0x24)  -- foreced offset cause fuckass website offset is wrong
+    cframe.position = Utils.readVector3(address + 0x24)
 
     return cframe
 end
 
 function GHDev.writeCFrame(address, cframe)
     Utils.writeMatrix3(address, cframe.rotation)
-    Utils.writeVector3(address + 0x24, cframe.position) -- foreced offset cause fuckass website offset is wrong
+    Utils.writeVector3(address + 0x24, cframe.position)
 end
 
 
